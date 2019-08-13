@@ -15,14 +15,17 @@ class SDKCell:
         #if input provided, ensure 0-9
         input = self.entryBox.get()
         matchObj = re.match(r'[0123456789]',str(input))
-        if input == "" or matchObj:
-            self.isSolved = True
-            self.possibilities = input
-            self.finalNumber = input
-            return True
+        if input != "":
+            if matchObj:
+                self.isSolved = True
+                self.possibilities = input
+                self.finalNumber = input
+                return True
+            else:
+                return False
         else:
-            return False
-
+            return True
+            
     def populate_start_value(self,value):
         self.entryBox.delete(0,END)
         self.entryBox.insert(0,value)
