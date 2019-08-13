@@ -25,7 +25,7 @@ class SDKCell:
                 return False
         else:
             return True
-            
+
     def populate_start_value(self,value):
         self.entryBox.delete(0,END)
         self.entryBox.insert(0,value)
@@ -33,7 +33,11 @@ class SDKCell:
     def display_finalNumber(self):
         if self.isSolved:
             self.entryBox.delete(0,END)
-            self.entryBox.insert(0,self.possibilities)
+            self.entryBox.insert(0,self.finalNumber)
         else:
             self.entryBox.delete(0,END)
             self.entryBox.insert(0,"#")
+
+    def solve(self):
+        self.isSolved = True
+        self.finalNumber = self.possibilities[0]

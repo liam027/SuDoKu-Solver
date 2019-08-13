@@ -53,7 +53,7 @@ class App:
         if self.puzzleGrid.assign_input_values():
             print("Inputs valid!")
             #[BUG] iteration based?
-            for i in range(10):
+            for i in range(1): #debug
                 self.update_all_cells()
                 if self.isComplete() == True:
                     print("Puzzle Completed!")
@@ -64,19 +64,21 @@ class App:
 
 
     def update_all_cells(self):
-        for i in range(9):
+        for i in range(1): #debug
             for n in range(9):
                 if self.puzzleGrid.grid[i][n].isSolved == False:
-                    #self.check_row(i,n)
+                    self.check_row(i,n)
                     #self.check_column(i,n)
                     #self.check_box(i,n)
                     if len(self.puzzleGrid.grid[i][n].possibilities) == 1:
-                        self.puzzleGrid.grid[i][n].isSolved = true
+                        self.puzzleGrid.grid[i][n].solve()
 
     def check_row(self,x,y):
         for i in range(1,10): #content
-            for n in range(9): #cell number
-                if i == self.puzzleGrid.grid[x][n].finalNumber:
+            for n in range(9): #y-coord
+                #print(str(i) + " : " + str(self.puzzleGrid.grid[x][n].finalNumber)) #debug
+                if str(i) == self.puzzleGrid.grid[x][n].finalNumber:
+                    print("ding!")
                     if i in self.puzzleGrid.grid[x][y].possibilities:
                         self.puzzleGrid.grid[x][y].possibilities.remove(i)
 
