@@ -1,0 +1,103 @@
+from tkinter import *
+from SDKGrid import *
+from SDKCell import *
+from Solver import *
+
+class App:
+    def __init__(self, master, **kwargs):
+        #generate new SDKgrid for future input value storage
+        self.puzzleGrid = SDKGrid("")
+
+        #window size, spacer and container for entry elements
+        self.master=master
+        master.geometry('600x600+0+0')
+        topHeader = Frame(width = 600, height = 40)
+        topHeader.pack()
+        topFrame = Frame( width = 600, height = 600)
+        topFrame.pack()
+
+        #create input elements and assign to SDKgrid
+        for x in range(9):
+            for y in range(9):
+                input = Entry(topFrame, width = 2, font = ("Courier", 24), justify="center")
+                self.puzzleGrid.get_cell_at_coords(x,y).entryBox = input
+                input.grid(row=x,column=y)
+
+        #separate grid and buttons
+        gridToButtonSpacer = Frame(width = 600, height = 60, bg = "red")
+        gridToButtonSpacer.pack()
+
+        #container for buttons
+        bottomFrame = Frame( width = 600, height = 200, bg = "red")
+        bottomFrame.pack()
+
+        solveButton = Button(bottomFrame, text = "SOLVE", fg = "blue", command=lambda : self.solve())
+        solveButton.pack(side=LEFT)
+
+        showButton = Button(bottomFrame, text = "SHOW", fg = "black", command=lambda : self.show_target())
+        showButton.pack(side=LEFT)
+
+        populateButton = Button(bottomFrame, text = "POPULATE", fg = "black", command=lambda : self.populate())
+        populateButton.pack(side=LEFT)
+
+        quitButton = Button(bottomFrame, text = "QUIT", fg = "red", command=bottomFrame.quit)
+        quitButton.pack(side=LEFT)
+
+    def say_hi(self):
+        print("hi there, everyone!")
+
+    def populate(self):
+        self.puzzleGrid.populate("trial.json")
+
+    def solve(self):
+        if self.puzzleGrid.assign_input_values():
+            print("Inputs valid!")
+
+            #[BUG] iteration based?
+            for i in range(10):
+                self.update_all_cells()
+                if self.is_complete_checker() == True:
+                    print("Puzzle Completed!")
+                    self.puzzleGrid.display_solution_values()
+        else:
+            print("Inputs not valid!")
+
+
+
+    def update_all_cells(self):
+        for i in range(9):
+            for n in range(9):
+                if self.puzzleGrid.grid[i][n].isSolved == False:
+                    self.check_row(i,n)
+                    self.check_column(i,n)
+                    #check_box(i,n)
+                    if len(self.puzzleGrid.grid[i][n].possibilities) == 1:
+                        self.puzzleGrid.grid[i][n].isSolved = true
+
+    def check_row(self,x,y):
+        for i in range(1,10): #content
+            for n in range(9): #cell number
+                if i == self.puzzleGrid.grid[x][n].finalNumber:
+                    if i in self.puzzleGrid.grid[x][y].possibilities:
+                        self.puzzleGrid.grid[x][y].possibilities.remove(i)
+
+    def check_column(self,x,y):
+        for i in range(1,10):
+            for n in range(9):
+                  if i == self.puzzleGrid.grid[n][y].finalNumber:
+                    if i in self.puzzleGrid.grid[x][y].possibilities:
+                        self.puzzleGrid.grid[x][y].possibilities.remove(i)
+
+    def is_complete_checker(self):
+        for i in range(9):
+            for n in range(9):
+                if self.puzzleGrid.grid[i][n].isSolved:
+                    return False
+        return True
+
+root = Tk()
+
+app = App(root)
+
+root.mainloop()
+#root.destroy()
