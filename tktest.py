@@ -7,7 +7,7 @@ class App:
     def __init__(self, master, **kwargs):
         #generate new SDKgrid for future input value storage
         self.puzzleGrid = SDKGrid("")
-
+        self.targetCell = None
         #window size, spacer and container for entry elements
         self.master=master
         master.geometry('600x600+0+0')
@@ -70,26 +70,27 @@ class App:
     def reduce_possibilities(self):
         for x in range(9):
             for y in range(9):
-                if self.puzzleGrid.grid[x][y].isSolved == False:
+                self.targetCell = self.puzzleGrid.grid[x][y]
+                if self.targetCell.isSolved == False:
                     self.check_row(x,y)
                     self.check_column(x,y)
                     self.check_box(x,y)
-                    if len(self.puzzleGrid.grid[x][y].possibilities) == 1:
-                        self.puzzleGrid.grid[x][y].solve()
+                    if len(self.targetCell.possibilities) == 1:
+                        self.targetCell.solve()
 
     def check_row(self,x,y):
         for i in range(1,10): #content
             for n in range(9): #y-coord adjacent cells
                 if str(i) == self.puzzleGrid.grid[x][n].finalNumber:
-                    if i in self.puzzleGrid.grid[x][y].possibilities:
-                        self.puzzleGrid.grid[x][y].possibilities.remove(i)
+                    if i in self.targetCell.possibilities:
+                        self.targetCell.possibilities.remove(i)
 
     def check_column(self,x,y):
         for i in range(1,10): #content
             for n in range(9): #x-coord adjacent cells
                   if str(i) == self.puzzleGrid.grid[n][y].finalNumber:
-                    if i in self.puzzleGrid.grid[x][y].possibilities:
-                        self.puzzleGrid.grid[x][y].possibilities.remove(i)
+                    if i in self.targetCell.possibilities:
+                        self.targetCell.possibilities.remove(i)
 
     def check_box(self, x,y):
         #box 1
@@ -98,72 +99,72 @@ class App:
                 for r in range(0,3):
                     for c in range(0,3):
                         if str(i) == self.puzzleGrid.grid[r][c].finalNumber:
-                            if i in self.puzzleGrid.grid[x][y].possibilities:
-                                self.puzzleGrid.grid[x][y].possibilities.remove(i)
+                            if i in self.targetCell.possibilities:
+                                self.targetCell.possibilities.remove(i)
         # box 2
         if x > 2 and x < 6 and y < 3:
             for i in range(1,10):
                 for r in range(3,6):
                     for c in range(0,3):
                         if str(i) == self.puzzleGrid.grid[r][c].finalNumber:
-                            if i in self.puzzleGrid.grid[x][y].possibilities:
-                                self.puzzleGrid.grid[x][y].possibilities.remove(i)
+                            if i in self.targetCell.possibilities:
+                                self.targetCell.possibilities.remove(i)
         # box 3
         if x > 5 and y < 3:
             for i in range(1,10):
                 for r in range(6,9):
                     for c in range(0,3):
                         if str(i) == self.puzzleGrid.grid[r][c].finalNumber:
-                            if i in self.puzzleGrid.grid[x][y].possibilities:
-                                self.puzzleGrid.grid[x][y].possibilities.remove(i)
+                            if i in self.targetCell.possibilities:
+                                self.targetCell.possibilities.remove(i)
         # box 4
         if x < 3 and y > 2 and y < 6:
             for i in range(1,10):
                 for r in range(0,3):
                     for c in range(3,6):
                         if str(i) == self.puzzleGrid.grid[r][c].finalNumber:
-                            if i in self.puzzleGrid.grid[x][y].possibilities:
-                                self.puzzleGrid.grid[x][y].possibilities.remove(i)
+                            if i in self.targetCell.possibilities:
+                                self.targetCell.possibilities.remove(i)
         # box 5
         if x > 2 and x < 6 and y > 2 and y < 6:
             for i in range(1,10):
                 for r in range(3,6):
                     for c in range(3,6):
                         if str(i) == self.puzzleGrid.grid[r][c].finalNumber:
-                            if i in self.puzzleGrid.grid[x][y].possibilities:
-                                self.puzzleGrid.grid[x][y].possibilities.remove(i)
+                            if i in self.targetCell.possibilities:
+                                self.targetCell.possibilities.remove(i)
         # box 6
         if x > 5 and y > 2 and y < 6:
             for i in range(1,10):
                 for r in range(6,9):
                     for c in range(3,6):
                         if str(i) == self.puzzleGrid.grid[r][c].finalNumber:
-                            if i in self.puzzleGrid.grid[x][y].possibilities:
-                                self.puzzleGrid.grid[x][y].possibilities.remove(i)
+                            if i in self.targetCell.possibilities:
+                                self.targetCell.possibilities.remove(i)
         # box 7
         if x < 3 and y > 5:
             for i in range(1,10):
                 for r in range(0,3):
                     for c in range(6,9):
                         if str(i) == self.puzzleGrid.grid[r][c].finalNumber:
-                            if i in self.puzzleGrid.grid[x][y].possibilities:
-                                self.puzzleGrid.grid[x][y].possibilities.remove(i)
+                            if i in self.targetCell.possibilities:
+                                self.targetCell.possibilities.remove(i)
         # box 8
         if x > 2 and x < 6 and y > 5:
             for i in range(1,10):
                 for r in range(3,6):
                     for c in range(6,9):
                         if str(i) == self.puzzleGrid.grid[r][c].finalNumber:
-                            if i in self.puzzleGrid.grid[x][y].possibilities:
-                                self.puzzleGrid.grid[x][y].possibilities.remove(i)
+                            if i in self.targetCell.possibilities:
+                                self.targetCell.possibilities.remove(i)
         # box 9
         if x > 5 and y > 5:
             for i in range(1,10):
                 for r in range(6,9):
                     for c in range(6,9):
                         if str(i) == self.puzzleGrid.grid[r][c].finalNumber:
-                            if i in self.puzzleGrid.grid[x][y].possibilities:
-                                self.puzzleGrid.grid[x][y].possibilities.remove(i)
+                            if i in self.targetCell.possibilities:
+                                self.targetCell.possibilities.remove(i)
 
     def isComplete(self):
         for i in range(9):
