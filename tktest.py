@@ -53,7 +53,7 @@ class App:
         if self.puzzleGrid.assign_input_values():
             print("Inputs valid!")
             #[BUG] iteration based?
-            for i in range(30):
+            for i in range(20):
                 self.reduce_possibilities()
 
             if self.isComplete() == True:
@@ -68,20 +68,21 @@ class App:
 
 
     def reduce_possibilities(self):
-        for i in range(9):
-            for n in range(9):
-                if self.puzzleGrid.grid[i][n].isSolved == False:
-                    self.check_row(i,n)
-                    self.check_column(i,n)
-                    self.check_box(i,n)
-                    if len(self.puzzleGrid.grid[i][n].possibilities) == 1:
-                        self.puzzleGrid.grid[i][n].solve()
+        for x in range(9):
+            for y in range(9):
+                if self.puzzleGrid.grid[x][y].isSolved == False:
+                    self.check_row(x,y)
+                    self.check_column(x,y)
+                    self.check_box(x,y)
+                    if len(self.puzzleGrid.grid[x][y].possibilities) == 1:
+                        self.puzzleGrid.grid[x][y].solve()
 
     def check_row(self,x,y):
         for i in range(1,10): #content
             for n in range(9): #y-coord adjacent cells
                 if str(i) == self.puzzleGrid.grid[x][n].finalNumber:
                     if i in self.puzzleGrid.grid[x][y].possibilities:
+                        print("Found number in target's possibilities")
                         self.puzzleGrid.grid[x][y].possibilities.remove(i)
 
     def check_column(self,x,y):

@@ -40,7 +40,9 @@ class SDKCell:
             self.entryBox.insert(0,"")
 
     def solve(self):
+        solution = str(self.possibilities[0])
         self.isSolved = True
-        self.finalNumber = self.possibilities[0]
+        self.finalNumber = solution
+        self.possibilities = solution
         self.display_finalNumber()
-        pdb.set_trace()
+        #pdb.set_trace()
