@@ -53,17 +53,21 @@ class App:
         if self.puzzleGrid.assign_input_values():
             print("Inputs valid!")
             #[BUG] iteration based?
-            for i in range(20):
-                self.update_all_cells()
-                if self.isComplete() == True:
-                    print("Puzzle Completed!")
-            self.puzzleGrid.display_solution_values()
+            for i in range(30):
+                self.reduce_possibilities()
+
+            if self.isComplete() == True:
+                print("Puzzle Completed!")
+                self.puzzleGrid.display_solution_values()
+            else:
+                print("Puzzle NOT Complete!")
+                self.puzzleGrid.display_solution_values()
         else:
             print("Inputs not valid!")
 
 
 
-    def update_all_cells(self):
+    def reduce_possibilities(self):
         for i in range(9):
             for n in range(9):
                 if self.puzzleGrid.grid[i][n].isSolved == False:

@@ -1,5 +1,6 @@
 from tkinter import *
 import re
+import pdb
 
 class SDKCell:
     def __init__(self, content):
@@ -36,8 +37,10 @@ class SDKCell:
             self.entryBox.insert(0,self.finalNumber)
         else:
             self.entryBox.delete(0,END)
-            self.entryBox.insert(0,"#")
+            self.entryBox.insert(0,"")
 
     def solve(self):
         self.isSolved = True
         self.finalNumber = self.possibilities[0]
+        self.display_finalNumber()
+        pdb.set_trace()
