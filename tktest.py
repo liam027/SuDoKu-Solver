@@ -8,6 +8,7 @@ class App:
         #generate new SDKgrid for future input value storage
         self.puzzleGrid = SDKGrid("")
         self.targetCell = None
+        self.foundStep = False
         #window size, spacer and container for entry elements
         self.master=master
         master.geometry('600x600+0+0')
@@ -34,8 +35,8 @@ class App:
         solveButton = Button(bottomFrame, text = "SOLVE", fg = "blue", command=lambda : self.solve())
         solveButton.pack(side=LEFT)
 
-        showButton = Button(bottomFrame, text = "SHOW", fg = "black", command=lambda : self.show_target())
-        showButton.pack(side=LEFT)
+        stepButton = Button(bottomFrame, text = "STEP", fg = "black", command=lambda : self.step())
+        stepButton.pack(side=LEFT)
 
         populateButton = Button(bottomFrame, text = "POPULATE", fg = "black", command=lambda : self.populate())
         populateButton.pack(side=LEFT)
@@ -46,37 +47,53 @@ class App:
     def say_hi(self):
         print("hi there, everyone!")
 
+    def step(self):
+        if self.puzzleGrid.assign_input_values():
+            for i in range(30): #[BUG] iteration based?
+                self.iterate_to_next()
+            self.foundStep = False
+            if self.isComplete() == True:
+                print("Puzzle Completed!")
+
     def populate(self):
         self.puzzleGrid.populate("trial.json")
 
     def solve(self):
         if self.puzzleGrid.assign_input_values():
-            print("Inputs valid!")
-            #[BUG] iteration based?
-            for i in range(30):
-                self.reduce_possibilities()
-
+            for i in range(30): #[BUG] iteration based?
+                self.iterate_to_finish()
             if self.isComplete() == True:
                 print("Puzzle Completed!")
-                self.puzzleGrid.display_solution_values()
             else:
                 print("Puzzle NOT Complete!")
-                self.puzzleGrid.display_solution_values()
         else:
             print("Inputs not valid!")
 
-
-
-    def reduce_possibilities(self):
+    def iterate_to_finish(self):
         for x in range(9):
             for y in range(9):
                 self.targetCell = self.puzzleGrid.grid[x][y]
-                if self.targetCell.isSolved == False:
-                    self.check_row(x,y)
-                    self.check_column(x,y)
-                    self.check_box(x,y)
+                if(self.targetCell.isSolved == False):
+                    self.reduce_possibilities(x,y)
                     if len(self.targetCell.possibilities) == 1:
                         self.targetCell.solve()
+
+    def iterate_to_next(self):
+        for x in range(9):
+            for y in range(9):
+                if(self.foundStep == False):
+                    self.targetCell = self.puzzleGrid.grid[x][y]
+                    if(self.targetCell.isSolved == False):
+                        self.reduce_possibilities(x,y)
+                        if len(self.targetCell.possibilities) == 1:
+                            self.targetCell.solve()
+                            self.foundStep = True
+
+    def reduce_possibilities(self,x,y):
+        if self.targetCell.isSolved == False:
+            self.check_row(x,y)
+            self.check_column(x,y)
+            self.check_box(x,y)
 
     def check_row(self,x,y):
         #check for numbers in horizontal adjacent cells and remove those from target's possibilities

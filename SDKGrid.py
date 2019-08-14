@@ -6,6 +6,7 @@ class SDKGrid:
         self.grid = []
         for i in range(9):
             self.grid.append(self.make_row(cellContent))
+        self.assign_cell_coords()
 
     def make_row(self, cellContent):
         row = []
@@ -14,10 +15,10 @@ class SDKGrid:
             row.append(cell)
         return row
 
-    def print_grid(self):
+    def assign_cell_coords(self):
         for x in range(9):
             for y in range(9):
-                print(self.grid[x][y].content)
+                self.grid[x][y].coords = [x,y]
 
     def get_cell_at_coords(self, x, y):
         return self.grid[x][y]

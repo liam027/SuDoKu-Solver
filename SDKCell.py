@@ -8,6 +8,7 @@ class SDKCell:
         self.entryBox = ""
         self.possibilities = list(range(1,10))
         self.isSolved = False;
+        self.coords = []
 
     def validate_input_value(self):
         input = self.entryBox.get()
@@ -46,3 +47,6 @@ class SDKCell:
         self.possibilities = solution
         self.display_finalNumber()
         #pdb.set_trace()
+
+    def get_cell_coords(self):
+        return f'({self.coords[0]},{self.coords[1]})'
