@@ -39,7 +39,7 @@ class App:
         stepButton = Button(bottomFrame, text = "STEP", fg = "black", command=lambda : self.step())
         stepButton.pack(side=LEFT)
 
-        populateButton = Button(bottomFrame, text = "POPULATE", fg = "black", command=lambda : self.populate())
+        populateButton = Button(bottomFrame, text = "LOAD", fg = "black", command=lambda : self.load())
         populateButton.pack(side=LEFT)
 
         saveButton = Button(bottomFrame, text = "SAVE", fg = "black", command=lambda : self.save())
@@ -59,8 +59,9 @@ class App:
             if self.isComplete() == True:
                 print("Puzzle Completed!")
 
-    def populate(self):
-        self.puzzleGrid.populate("trial.json")
+    def load(self):
+        fin = filedialog.askopenfilename(initialdir="puzzles/",title="Select file", filetypes =(("JSON files","*.json"),("All file types","*.*")))
+        self.puzzleGrid.load(fin)
 
     def solve(self):
         if self.puzzleGrid.assign_input_values():
@@ -74,11 +75,11 @@ class App:
             print("Inputs not valid!")
 
     def save(self):
-        fout = filedialog.asksaveasfilename(initialdir="puzzles/",title="Select save location", filetypes =(("JSON files","*.json"),("All file types","*.*")))
-        data = self.puzzleGrid.grid_to_json()
-        fout.write(data)
-        fout.close()
-
+        if self.puzzleGrid.assign_input_values():
+            fout = filedialog.asksaveasfilename(initialdir="puzzles/",title="Select save location", filetypes =(("JSON files","*.json"),("All file types","*.*")))
+            self.puzzleGrid.save(fout)
+        else:
+            print("Bad input!")
     def iterate_to_finish(self):
         for x in range(9):
             for y in range(9):

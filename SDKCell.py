@@ -31,6 +31,7 @@ class SDKCell:
     def populate_start_value(self,value):
         self.entryBox.delete(0,END)
         self.entryBox.insert(0,value)
+        self.entryBox.config(fg="blue", state="disabled", disabledforeground="blue")
 
     def display_finalNumber(self):
         if self.isSolved:

@@ -37,8 +37,8 @@ class SDKGrid:
             for y in range(9):
                 self.grid[x][y].display_finalNumber()
 
-    def populate(self, filePath):
-        with open("puzzles/trial.json", "r") as read_file:
+    def load(self, filePath):
+        with open(filePath, "r") as read_file:
             data = json.load(read_file)
         for item in data:
             x = item["x"]
@@ -46,13 +46,14 @@ class SDKGrid:
             value = item["value"]
             self.grid[x][y].populate_start_value(value)
 
-    def grid_to_json(self):
+    def save(self,filePath):
         data = []
         for x in range(9):
             for y in range(9):
                 cell = {}
                 cell["x"] = x
-                cell["x"] = x
+                cell["y"] = y
                 cell["value"] = self.grid[x][y].finalNumber
-                data.add(cell)
-        data = json.dumps(data)
+                data.append(cell)
+        with open(filePath, "w") as outfile:
+            json.dump(data,outfile)
