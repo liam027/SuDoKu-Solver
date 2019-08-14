@@ -53,7 +53,7 @@ class App:
         if self.puzzleGrid.assign_input_values():
             print("Inputs valid!")
             #[BUG] iteration based?
-            for i in range(20):
+            for i in range(30):
                 self.reduce_possibilities()
 
             if self.isComplete() == True:
@@ -82,7 +82,6 @@ class App:
             for n in range(9): #y-coord adjacent cells
                 if str(i) == self.puzzleGrid.grid[x][n].finalNumber:
                     if i in self.puzzleGrid.grid[x][y].possibilities:
-                        print("Found number in target's possibilities")
                         self.puzzleGrid.grid[x][y].possibilities.remove(i)
 
     def check_column(self,x,y):
@@ -170,6 +169,8 @@ class App:
         for i in range(9):
             for n in range(9):
                 if self.puzzleGrid.grid[i][n].isSolved:
+                    continue
+                else:
                     return False
         return True
 
