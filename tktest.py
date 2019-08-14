@@ -1,3 +1,4 @@
+from tkinter import filedialog
 from tkinter import *
 from SDKGrid import *
 from SDKCell import *
@@ -41,6 +42,9 @@ class App:
         populateButton = Button(bottomFrame, text = "POPULATE", fg = "black", command=lambda : self.populate())
         populateButton.pack(side=LEFT)
 
+        saveButton = Button(bottomFrame, text = "SAVE", fg = "black", command=lambda : self.save())
+        saveButton.pack(side=LEFT)
+
         quitButton = Button(bottomFrame, text = "QUIT", fg = "red", command=bottomFrame.quit)
         quitButton.pack(side=LEFT)
 
@@ -68,6 +72,12 @@ class App:
                 print("Puzzle NOT Complete!")
         else:
             print("Inputs not valid!")
+
+    def save(self):
+        fout = filedialog.asksaveasfilename(initialdir="puzzles/",title="Select save location", filetypes =(("JSON files","*.json"),("All file types","*.*")))
+        data = self.puzzleGrid.grid_to_json()
+        fout.write(data)
+        fout.close()
 
     def iterate_to_finish(self):
         for x in range(9):
