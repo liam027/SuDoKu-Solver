@@ -1,5 +1,6 @@
 from tkinter import *
 import re
+import types
 import pdb
 
 class SDKCell:
@@ -9,6 +10,8 @@ class SDKCell:
         self.possibilities = list(range(1,10))
         self.isSolved = False;
         self.coords = []
+        self.row_neighbour_possibilities = []
+        self.column_neighbour_possibilities = []
 
     def validate_input_value(self):
         input = self.entryBox.get()
@@ -19,9 +22,7 @@ class SDKCell:
         matchObj = re.match(r'[0123456789]',str(input))
         if input != "":
             if matchObj:
-                self.isSolved = True
-                self.possibilities = input
-                self.finalNumber = input
+                self.solve(input)
                 return True
             else:
                 return False
@@ -41,13 +42,25 @@ class SDKCell:
             self.entryBox.delete(0,END)
             self.entryBox.insert(0,"")
 
-    def solve(self):
-        solution = str(self.possibilities[0])
+    def solve(self, result = 0):
+        if result == 0:
+            solution = str(self.possibilities[0])
+        else:
+            solution = str(result)
         self.isSolved = True
         self.finalNumber = solution
-        self.possibilities = solution
+        self.possibilities = 0
         self.display_finalNumber()
         #pdb.set_trace()
 
     def get_cell_coords(self):
         return f'({self.coords[0]},{self.coords[1]})'
+
+    def flatten_list(self, list_of_lists): #flattens a list of lists into single array
+        flat_list = []
+        for sublist in list_of_lists:
+            if type(sublist) is list: #make sure the item in list_of_lists is a list (iterable)
+                for item in sublist:
+                    flat_list.append(item)
+        flat_list = list(dict.fromkeys(flat_list))
+        self.row_neighbour_possibilities = flat_list

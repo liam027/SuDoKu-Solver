@@ -80,6 +80,7 @@ class App:
             self.puzzleGrid.save(fout)
         else:
             print("Bad input!")
+
     def iterate_to_finish(self):
         for x in range(9):
             for y in range(9):
@@ -96,31 +97,51 @@ class App:
                     self.targetCell = self.puzzleGrid.grid[x][y]
                     if(self.targetCell.isSolved == False):
                         self.reduce_possibilities(x,y)
+                        #self.check_neighbours()
                         if len(self.targetCell.possibilities) == 1:
                             self.targetCell.solve()
                             self.foundStep = True
 
     def reduce_possibilities(self,x,y):
-        if self.targetCell.isSolved == False:
-            self.check_row(x,y)
-            self.check_column(x,y)
-            self.check_box(x,y)
+        self.reduce_possibilities_by_row(x,y)
+        self.reduce_possibilities_by_column(x,y)
+        self.reduce_possibilities_by_box(x,y)
 
-    def check_row(self,x,y):
+    def check_neighbours(self):
+        self.check_row_neighbours()
+        self.check_column_neighbours()
+
+    def check_row_neighbours(self):
+        for p in self.targetCell.possibilities: #if a target's possibility isn't in it's neighbours, the only choice it to assign that value to target cell
+            if p not in self.targetCell.row_neighbour_possibilities:
+                self.targetCell.solve(p)
+
+    def check_column_neighbours(self):
+        for p in self.targetCell.possibilities: #if a target's possibility isn't in it's neighbours, the only choice it to assign that value to target cell
+            if p not in self.targetCell.column_neighbour_possibilities:
+                self.targetCell.solve(p)
+
+    def reduce_possibilities_by_row(self,x,y):
         #check for numbers in horizontal adjacent cells and remove those from target's possibilities
         for i in range(1,10): #content
             for n in range(9): #y-coord adjacent cells
+                if n != y:
+                    self.targetCell.row_neighbour_possibilities.append( self.puzzleGrid.grid[x][n].possibilities)
                 if str(i) == self.puzzleGrid.grid[x][n].finalNumber:
                     self.RemovePossiblityFromTargetCell(i,self.targetCell)
+        self.targetCell.flatten_list(self.targetCell.row_neighbour_possibilities)
 
-    def check_column(self,x,y):
+    def reduce_possibilities_by_column(self,x,y):
         #check for numbers in vertical adjacent cells and remove those from target's possibilities
         for i in range(1,10): #content
             for n in range(9): #x-coord adjacent cells
-                  if str(i) == self.puzzleGrid.grid[n][y].finalNumber:
+                if n != x:
+                    self.targetCell.column_neighbour_possibilities.append( self.puzzleGrid.grid[x][n].possibilities)
+                if str(i) == self.puzzleGrid.grid[n][y].finalNumber:
                     self.RemovePossiblityFromTargetCell(i,self.targetCell)
+        self.targetCell.flatten_list(self.targetCell.column_neighbour_possibilities)
 
-    def check_box(self, x,y):
+    def reduce_possibilities_by_box(self, x,y):
         #check 3x3 box that contains targetCell for numbers and remove them from target possibilities
         if x < 3 and y < 3: #top left
             self.check_box1()
@@ -195,6 +216,7 @@ class App:
                 for c in range(6,9):
                     if str(i) == self.puzzleGrid.grid[r][c].finalNumber:
                         self.RemovePossiblityFromTargetCell(i,self.targetCell)
+
 
     def isComplete(self):
         for i in range(9):
