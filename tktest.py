@@ -52,12 +52,16 @@ class App:
         print("hi there, everyone!")
 
     def step(self):
+        self.foundStep = False
         if self.puzzleGrid.assign_input_values():
-            for i in range(30): #[BUG] iteration based?
-                self.iterate_to_next()
-            self.foundStep = False
-            if self.isComplete() == True:
-                print("Puzzle Completed!")
+            for i in range(30): #[BUG]  iteration based?
+                for x in range(9):
+                    for y in range(9):
+                        if self.foundStep == False:
+                            self.iterate_to_next(x,y)
+        if self.isComplete() == True:
+            print("Puzzle Completed!")
+
 
     def load(self):
         fin = filedialog.askopenfilename(initialdir="puzzles/",title="Select file", filetypes =(("JSON files","*.json"),("All file types","*.*")))
@@ -66,13 +70,15 @@ class App:
     def solve(self):
         if self.puzzleGrid.assign_input_values():
             for i in range(30): #[BUG] iteration based?
-                self.iterate_to_finish()
-            if self.isComplete() == True:
-                print("Puzzle Completed!")
-            else:
-                print("Puzzle NOT Complete!")
+                for x in range(9):
+                    for y in range(9):
+                        self.iterate_to_finish(x,y)
         else:
             print("Inputs not valid!")
+        if self.isComplete() == True:
+            print("Puzzle Completed!")
+        else:
+            print("Puzzle NOT Complete!")
 
     def save(self):
         if self.puzzleGrid.assign_input_values():
@@ -81,27 +87,23 @@ class App:
         else:
             print("Bad input!")
 
-    def iterate_to_finish(self):
-        for x in range(9):
-            for y in range(9):
+    def iterate_to_finish(self,x,y):
                 self.targetCell = self.puzzleGrid.grid[x][y]
                 if(self.targetCell.isSolved == False):
                     self.reduce_possibilities(x,y)
                     if len(self.targetCell.possibilities) == 1:
                         self.targetCell.solve()
 
-    def iterate_to_next(self):
-        for x in range(9):
-            for y in range(9):
-                if(self.foundStep == False):
-                    self.targetCell = self.puzzleGrid.grid[x][y]
-                    if(self.targetCell.isSolved == False):
-                        self.reduce_possibilities(x,y)
-                        if len(self.targetCell.possibilities) == 1:
-                            self.targetCell.solve()
-                            self.foundStep = True
-                        else:
-                            self.check_neighbours()
+    def iterate_to_next(self,x,y):
+        if(self.foundStep == False):
+            self.targetCell = self.puzzleGrid.grid[x][y]
+            if(self.targetCell.isSolved == False):
+                self.reduce_possibilities(x,y)
+                if len(self.targetCell.possibilities) == 1:
+                    self.targetCell.solve()
+                    self.foundStep = True
+                #else:
+                    #self.check_neighbours()
 
     def reduce_possibilities(self,x,y):
         self.reduce_possibilities_by_row(x,y)
