@@ -29,7 +29,7 @@ class SDKCell:
         else:
             return True
 
-    def populate_start_value(self,value):
+    def load(self,value):
         self.entryBox.delete(0,END)
         self.entryBox.insert(0,value)
         self.entryBox.config(fg="blue", state="disabled", disabledforeground="blue")
@@ -49,9 +49,8 @@ class SDKCell:
             solution = str(result)
         self.isSolved = True
         self.finalNumber = solution
-        self.possibilities = 0
+        self.possibilities = [0] #use a zero to represent poss. of solved cells
         self.display_finalNumber()
-        #pdb.set_trace()
 
     def get_cell_coords(self):
         return f'({self.coords[0]},{self.coords[1]})'

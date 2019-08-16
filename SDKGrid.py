@@ -44,7 +44,8 @@ class SDKGrid:
             x = item["x"]
             y = item["y"]
             value = item["value"]
-            self.grid[x][y].populate_start_value(value)
+            if value != "":
+                self.grid[x][y].load(value)
 
     def save(self,filePath):
         data = []

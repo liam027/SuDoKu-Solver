@@ -97,10 +97,11 @@ class App:
                     self.targetCell = self.puzzleGrid.grid[x][y]
                     if(self.targetCell.isSolved == False):
                         self.reduce_possibilities(x,y)
-                        #self.check_neighbours()
                         if len(self.targetCell.possibilities) == 1:
                             self.targetCell.solve()
                             self.foundStep = True
+                        else:
+                            self.check_neighbours()
 
     def reduce_possibilities(self,x,y):
         self.reduce_possibilities_by_row(x,y)
@@ -108,18 +109,19 @@ class App:
         self.reduce_possibilities_by_box(x,y)
 
     def check_neighbours(self):
-        self.check_row_neighbours()
-        self.check_column_neighbours()
+        """if a target's possibility isn't in it's neighbours, the only choice is to assign that value to target cell"""
+        for p in self.targetCell.possibilities:
+            if p != 0:
+                if p not in self.targetCell.row_neighbour_possibilities:
+                    self.targetCell.solve(p)
+                    self.foundStep = True
+                    return
+                else:
+                    if p not in self.targetCell.column_neighbour_possibilities:
+                        self.targetCell.solve(p)
+                        self.foundStep = True
+                        return
 
-    def check_row_neighbours(self):
-        for p in self.targetCell.possibilities: #if a target's possibility isn't in it's neighbours, the only choice it to assign that value to target cell
-            if p not in self.targetCell.row_neighbour_possibilities:
-                self.targetCell.solve(p)
-
-    def check_column_neighbours(self):
-        for p in self.targetCell.possibilities: #if a target's possibility isn't in it's neighbours, the only choice it to assign that value to target cell
-            if p not in self.targetCell.column_neighbour_possibilities:
-                self.targetCell.solve(p)
 
     def reduce_possibilities_by_row(self,x,y):
         #check for numbers in horizontal adjacent cells and remove those from target's possibilities
@@ -234,6 +236,7 @@ class App:
 root = Tk()
 
 app = App(root)
+cell = app.puzzleGrid.grid[4][4]
 
 root.mainloop()
 #root.destroy()
