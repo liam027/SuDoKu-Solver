@@ -33,10 +33,10 @@ class App:
         bottomFrame = Frame( width = 600, height = 200)
         bottomFrame.pack()
 
-        solveButton = Button(bottomFrame, text = "SOLVE", fg = "blue", command=lambda : self.solve())
+        solveButton = Button(bottomFrame, text = "SOLVE", fg = "blue", command=lambda : self.solve_button())
         solveButton.pack(side=LEFT)
 
-        stepButton = Button(bottomFrame, text = "STEP", fg = "black", command=lambda : self.step())
+        stepButton = Button(bottomFrame, text = "STEP", fg = "black", command=lambda : self.step_button())
         stepButton.pack(side=LEFT)
 
         populateButton = Button(bottomFrame, text = "LOAD", fg = "black", command=lambda : self.load())
@@ -51,14 +51,14 @@ class App:
     def say_hi(self):
         print("hi there, everyone!")
 
-    def step(self):
+    def step_button(self):
         self.foundStep = False
         if self.puzzleGrid.assign_input_values():
             for i in range(30): #[BUG]  iteration based?
                 for x in range(9):
                     for y in range(9):
                         if self.foundStep == False:
-                            self.iterate_to_next(x,y)
+                            self.solve_step(x,y)
         if self.isComplete() == True:
             print("Puzzle Completed!")
 
@@ -67,12 +67,12 @@ class App:
         fin = filedialog.askopenfilename(initialdir="puzzles/",title="Select file", filetypes =(("JSON files","*.json"),("All file types","*.*")))
         self.puzzleGrid.load(fin)
 
-    def solve(self):
+    def solve_button(self):
         if self.puzzleGrid.assign_input_values():
             for i in range(30): #[BUG] iteration based?
                 for x in range(9):
                     for y in range(9):
-                        self.iterate_to_finish(x,y)
+                        self.solve_full(x,y)
         else:
             print("Inputs not valid!")
         if self.isComplete() == True:
@@ -87,14 +87,14 @@ class App:
         else:
             print("Bad input!")
 
-    def iterate_to_finish(self,x,y):
+    def solve_full(self,x,y):
                 self.targetCell = self.puzzleGrid.grid[x][y]
                 if(self.targetCell.isSolved == False):
                     self.reduce_possibilities(x,y)
                     if len(self.targetCell.possibilities) == 1:
                         self.targetCell.solve()
 
-    def iterate_to_next(self,x,y):
+    def solve_step(self,x,y):
         if(self.foundStep == False):
             self.targetCell = self.puzzleGrid.grid[x][y]
             if(self.targetCell.isSolved == False):
