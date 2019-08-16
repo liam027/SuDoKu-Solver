@@ -117,13 +117,9 @@ class App:
                 if p not in self.targetCell.row_neighbour_possibilities:
                     self.targetCell.solve(p)
                     self.foundStep = True
-                    return
-                else:
-                    if p not in self.targetCell.column_neighbour_possibilities:
-                        self.targetCell.solve(p)
-                        self.foundStep = True
-                        return
-
+                elif p not in self.targetCell.column_neighbour_possibilities:
+                    self.targetCell.solve(p)
+                    self.foundStep = True
 
     def reduce_possibilities_by_row(self,x,y):
         #check for numbers in horizontal adjacent cells and remove those from target's possibilities
@@ -133,7 +129,7 @@ class App:
                     self.targetCell.row_neighbour_possibilities.append( self.puzzleGrid.grid[x][n].possibilities)
                 if str(i) == self.puzzleGrid.grid[x][n].finalNumber:
                     self.RemovePossiblityFromTargetCell(i,self.targetCell)
-        self.targetCell.flatten_list(self.targetCell.row_neighbour_possibilities)
+        self.targetCell.row_neighbour_possibilities = self.flatten_list(self.targetCell.row_neighbour_possibilities)
 
     def reduce_possibilities_by_column(self,x,y):
         #check for numbers in vertical adjacent cells and remove those from target's possibilities
@@ -143,7 +139,7 @@ class App:
                     self.targetCell.column_neighbour_possibilities.append( self.puzzleGrid.grid[x][n].possibilities)
                 if str(i) == self.puzzleGrid.grid[n][y].finalNumber:
                     self.RemovePossiblityFromTargetCell(i,self.targetCell)
-        self.targetCell.flatten_list(self.targetCell.column_neighbour_possibilities)
+        self.targetCell.column_neighbour_possibilities = self.flatten_list(self.targetCell.column_neighbour_possibilities)
 
     def reduce_possibilities_by_box(self, x,y):
         #check 3x3 box that contains targetCell for numbers and remove them from target possibilities
@@ -235,6 +231,14 @@ class App:
         if i in targetCell.possibilities:
             targetCell.possibilities.remove(i)
 
+    def flatten_list(self, list_of_lists): #flattens a list of lists into single array
+        flat_list = []
+        for sublist in list_of_lists:
+            if type(sublist) is list: #make sure the item in list_of_lists is a list (iterable)
+                for item in sublist:
+                    flat_list.append(item)
+        flat_list = list(dict.fromkeys(flat_list))
+        return flat_list
 root = Tk()
 
 app = App(root)

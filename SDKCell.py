@@ -62,4 +62,4 @@ class SDKCell:
                 for item in sublist:
                     flat_list.append(item)
         flat_list = list(dict.fromkeys(flat_list))
-        self.row_neighbour_possibilities = flat_list
+        return flat_list
