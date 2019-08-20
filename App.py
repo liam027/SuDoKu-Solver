@@ -11,10 +11,14 @@ class App:
         self.foundStep = False
         #window size, spacer and container for entry elements
         self.master=master
-        master.geometry('600x600+0+0')
-        topHeader = Frame(width = 600, height = 40)
-        topHeader.pack()
-        topFrame = Frame( width = 600, height = 600)
+        master.geometry('550x600+0+0')
+        topTitleHeader = Frame(self.master,width = 600, height = 50)
+        topTitleHeader.pack()
+        """title = Label(self.master, text= "SuDuKo Solver")
+        title.pack()
+        botTitleHeader = Frame(self.master,width = 600, height = 10)
+        botTitleHeader.pack()"""
+        topFrame = Frame(self.master,width = 600, height = 600)
         topFrame.pack()
 
         #create input elements and assign to SDKgrid
@@ -25,11 +29,11 @@ class App:
                 input.grid(row=x,column=y)
 
         #separate grid and buttons
-        gridToButtonSpacer = Frame(width = 600, height = 60)
+        gridToButtonSpacer = Frame(width = 600, height = 30)
         gridToButtonSpacer.pack()
 
         #container for buttons
-        bottomFrame = Frame( width = 600, height = 200)
+        bottomFrame = Frame( width = 600, height = 50)
         bottomFrame.pack()
 
         solveButton = Button(bottomFrame, text = "SOLVE", fg = "blue", command=lambda : self.solve_button())
@@ -272,6 +276,8 @@ class App:
 
 
 root = Tk()
+root.title("SuDuKo Solver")
+
 app = App(root)
 cell = app.puzzleGrid.grid[4][4]
 
