@@ -23,6 +23,11 @@ class SDKGrid:
     def get_cell_at_coords(self, x, y):
         return self.grid[x][y]
 
+    def clear(self):
+        for x in range(9):
+            for y in range(9):
+                self.grid[x][y].clear()
+
     def assign_input_values(self):
         for x in range(9):
             for y in range(9):
@@ -32,11 +37,6 @@ class SDKGrid:
                     return False
         return True
 
-    def display_solution_values(self):
-        for x in range(9):
-            for y in range(9):
-                self.grid[x][y].display_finalNumber()
-
     def load(self, filePath):
         with open(filePath, "r") as read_file:
             data = json.load(read_file)
@@ -44,8 +44,7 @@ class SDKGrid:
             x = item["x"]
             y = item["y"]
             value = item["value"]
-            if value != "":
-                self.grid[x][y].load(value)
+            self.grid[x][y].load(value)
 
     def save(self,filePath):
         data = []

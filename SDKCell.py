@@ -33,15 +33,8 @@ class SDKCell:
     def load(self,value):
         self.entryBox.delete(0,END)
         self.entryBox.insert(0,value)
-        #self.entryBox.config(fg="blue", state="disabled", disabledforeground="blue")
-
-    def display_finalNumber(self):
-        if self.isSolved:
-            self.entryBox.delete(0,END)
-            self.entryBox.insert(0,self.finalNumber)
-        else:
-            self.entryBox.delete(0,END)
-            self.entryBox.insert(0,"")
+        if value != "":
+            self.entryBox.config(fg="blue", state="disabled", disabledforeground="blue")
 
     def solve(self, result = 0):
         if result == 0:
@@ -51,7 +44,16 @@ class SDKCell:
         self.isSolved = True
         self.finalNumber = solution
         self.possibilities = [0] #use a zero to represent poss. of solved cells
-        self.display_finalNumber()
+        self.entryBox.delete(0,END)
+        self.entryBox.insert(0,self.finalNumber)
+
+    def clear(self):
+        self.finalNumber = ""
+        self.possibilities = list(range(1,10))
+        self.isSolved = False;
+        self.row_neighbour_possibilities = []
+        self.column_neighbour_possibilities = []
+        self.box_neighbour_possibilities = []
 
     def get_cell_coords(self):
         return f'({self.coords[0]},{self.coords[1]})'

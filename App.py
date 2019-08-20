@@ -64,6 +64,7 @@ class App:
 
 
     def load(self,file = ""):
+        self.puzzleGrid.clear()
         if file == "":
             fin = filedialog.askopenfilename(initialdir="puzzles/",title="Select file", filetypes =(("JSON files","*.json"),("All file types","*.*")))
         else:
