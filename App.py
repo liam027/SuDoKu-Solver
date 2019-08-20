@@ -12,47 +12,54 @@ class App:
         #window size, spacer and container for entry elements
         self.master=master
         master.geometry('550x600+0+0')
-        topTitleHeader = Frame(self.master,width = 600, height = 50)
-        topTitleHeader.pack()
-        """title = Label(self.master, text= "SuDuKo Solver")
-        title.pack()
-        botTitleHeader = Frame(self.master,width = 600, height = 10)
-        botTitleHeader.pack()"""
-        topFrame = Frame(self.master,width = 600, height = 600)
-        topFrame.pack()
+        top_title_header = Frame(self.master,width = 600, height = 50)
+        top_title_header.pack()
+
+        #botTitleHeader = Frame(self.master,width = 600, height = 10)
+        #botTitleHeader.pack()
+
+        top_frame = Frame(self.master,width = 600, height = 600)
+        top_frame.pack()
 
         #create input elements and assign to SDKgrid
         for x in range(9):
             for y in range(9):
-                input = Entry(topFrame, width = 2, font = ("Courier", 24), justify="center")
+                input = Entry(top_frame, width = 2, font = ("Courier", 24), justify="center")
                 self.puzzleGrid.get_cell_at_coords(x,y).entryBox = input
                 input.grid(row=x,column=y)
 
         #separate grid and buttons
-        gridToButtonSpacer = Frame(width = 600, height = 30)
-        gridToButtonSpacer.pack()
+        grid_to_label_spacer = Frame(width = 600, height = 10)
+        grid_to_label_spacer.pack()
+
+        #label for messages
+        self.message = StringVar()
+        self.message.set("LOAD or manually input a puzzle!")
+        self.label_for_messages = Label(self.master, textvariable = self.message)
+        self.label_for_messages.pack()
+
+        #separate grid and buttons
+        label_to_button_spacer = Frame(width = 600, height = 10)
+        label_to_button_spacer.pack()
 
         #container for buttons
-        bottomFrame = Frame( width = 600, height = 50)
-        bottomFrame.pack()
+        bottom_frame = Frame( width = 600, height = 50)
+        bottom_frame.pack()
 
-        solveButton = Button(bottomFrame, text = "SOLVE", fg = "blue", command=lambda : self.solve_button())
-        solveButton.pack(side=LEFT)
+        solve_button = Button(bottom_frame, text = "SOLVE", fg = "blue", command=lambda : self.solve_button())
+        solve_button.pack(side=LEFT)
 
-        stepButton = Button(bottomFrame, text = "STEP", fg = "black", command=lambda : self.step_button())
-        stepButton.pack(side=LEFT)
+        step_button = Button(bottom_frame, text = "STEP", fg = "black", command=lambda : self.step_button())
+        step_button.pack(side=LEFT)
 
-        populateButton = Button(bottomFrame, text = "LOAD", fg = "black", command=lambda : self.load())
-        populateButton.pack(side=LEFT)
+        populate_button = Button(bottom_frame, text = "LOAD", fg = "black", command=lambda : self.load())
+        populate_button.pack(side=LEFT)
 
-        saveButton = Button(bottomFrame, text = "SAVE", fg = "black", command=lambda : self.save())
-        saveButton.pack(side=LEFT)
+        save_button = Button(bottom_frame, text = "SAVE", fg = "black", command=lambda : self.save())
+        save_button.pack(side=LEFT)
 
-        quitButton = Button(bottomFrame, text = "QUIT", fg = "red", command=bottomFrame.quit)
-        quitButton.pack(side=LEFT)
-
-    def say_hi(self):
-        print("hi there, everyone!")
+        quit_button = Button(bottom_frame, text = "QUIT", fg = "red", command=bottom_frame.quit)
+        quit_button.pack(side=LEFT)
 
     def step_button(self):
         self.foundStep = False
@@ -64,7 +71,7 @@ class App:
                             self.solve_step(x,y)
 
         if self.isComplete() == True:
-            print("Puzzle Completed!")
+            self.message.set("Puzzle completed!")
 
     def load(self,file = ""):
         self.puzzleGrid.clear()
@@ -73,6 +80,7 @@ class App:
         else:
             fin = file
         self.puzzleGrid.load(fin)
+        self.message.set("SOLVE the puzzle or STEP through the solution!")
 
     """def solve_button(self):
         if self.puzzleGrid.assign_input_values():
@@ -92,7 +100,7 @@ class App:
             fout = filedialog.asksaveasfilename(initialdir="puzzles/",title="Select save location", filetypes =(("JSON files","*.json"),("All file types","*.*")))
             self.puzzleGrid.save(fout)
         else:
-            print("Bad input!")
+            self.message.set("Bad Input! Make sure you've entered only single digits!")
 
     """def solve_full(self,x,y):
                 self.targetCell = self.puzzleGrid.grid[x][y]
