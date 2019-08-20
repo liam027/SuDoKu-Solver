@@ -32,9 +32,11 @@ class SolverTests(unittest.TestCase):
         app = App.App(root)
         app.load("puzzles/test.json")
         app.puzzleGrid.assign_input_values()
-        app.solve_full(7,2)
-        app.solve_full(7,4)
-        app.solve_full(7,6)
+        app.solve_step(7,2)
+        app.foundStep = False
+        app.solve_step(7,4)
+        app.foundStep = False
+        app.solve_step(7,6)
         app.check_neighbours()
         self.assertEqual(app.puzzleGrid.grid[7][6].finalNumber, "5")
 
@@ -43,10 +45,13 @@ class SolverTests(unittest.TestCase):
         app = App.App(root)
         app.load("puzzles/test.json")
         app.puzzleGrid.assign_input_values()
-        app.solve_full(4,4)
-        app.solve_full(5,4)
-        app.solve_full(7,4)
-        app.solve_full(8,4)
+        app.solve_step(4,4)
+        app.foundStep = False
+        app.solve_step(5,4)
+        app.foundStep = False
+        app.solve_step(7,4)
+        app.foundStep = False
+        app.solve_step(8,4)
         app.check_neighbours()
         self.assertEqual(app.puzzleGrid.grid[8][4].finalNumber, "4")
 
@@ -56,12 +61,19 @@ class SolverTests(unittest.TestCase):
         app.load("puzzles/test.json")
         app.puzzleGrid.assign_input_values()
         app.solve_full(3,6)
+        app.foundStep = False
         app.solve_full(3,7)
+        app.foundStep = False
         app.solve_full(4,7)
+        app.foundStep = False
         app.solve_full(4,8)
+        app.foundStep = False
         app.solve_full(5,6)
+        app.foundStep = False
         app.solve_full(5,7)
+        app.foundStep = False
         app.solve_full(5,8)
+        app.foundStep = False
         app.solve_full(3,8)
         app.check_neighbours()
         self.assertEqual(app.puzzleGrid.grid[3][8].finalNumber, "8")

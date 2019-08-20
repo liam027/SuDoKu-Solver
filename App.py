@@ -89,27 +89,27 @@ class App:
         else:
             print("Bad input!")
 
-    def solve_full(self,x,y):
+    """def solve_full(self,x,y):
                 self.targetCell = self.puzzleGrid.grid[x][y]
                 if(self.targetCell.isSolved == False):
-                    self.reduce_possibilities(x,y)
+                    self.calculate_possibilities()
                     if len(self.targetCell.possibilities) == 1:
                         self.targetCell.solve()
-                    #else:
-                        #self.check_neighbours()
+                    else:
+                        self.check_neighbours()"""
 
     def solve_step(self,x,y):
         if(self.foundStep == False):
             self.targetCell = self.puzzleGrid.grid[x][y]
             if(self.targetCell.isSolved == False):
-                self.reduce_possibilities(x,y)
+                self.calculate_possibilities(x,y)
                 if len(self.targetCell.possibilities) == 1:
                     self.targetCell.solve()
                     self.foundStep = True
-                else:
-                    self.check_neighbours()
+                #else:
+                    #self.check_neighbours()
 
-    def reduce_possibilities(self,x,y):
+    def calculate_possibilities(self,x,y):
         self.reduce_possibilities_by_row(x,y)
         self.reduce_possibilities_by_column(x,y)
         self.reduce_possibilities_by_box(x,y)
@@ -148,7 +148,7 @@ class App:
                     self.RemovePossiblityFromTargetCell(i,self.targetCell)
         self.targetCell.column_neighbour_possibilities = self.flatten_list(self.targetCell.column_neighbour_possibilities)
 
-    def reduce_possibilities_by_box(self, x,y):
+    def reduce_possibilities_by_box(self,x,y):
         #check 3x3 box that contains targetCell for numbers and remove them from target possibilities
         if x < 3 and y < 3: #top left
             self.check_box1(x,y)
@@ -206,6 +206,8 @@ class App:
         for i in range(1,10):
             for r in range(3,6):
                 for c in range(3,6):
+                    if r != x and c != y:
+                        self.targetCell.box_neighbour_possibilities.append( self.puzzleGrid.grid[r][c].possibilities)
                     if str(i) == self.puzzleGrid.grid[r][c].finalNumber:
                         self.RemovePossiblityFromTargetCell(i,self.targetCell)
     def check_box6(self,x,y): #bottom middle
