@@ -9,7 +9,8 @@ class SDKCell:
         self.entryBox = ""
         self.possibilities = list(range(1,10))
         self.isSolved = False;
-        self.coords = []
+        self.x = ""
+        self.y = ""
         self.row_neighbour_possibilities = []
         self.column_neighbour_possibilities = []
         self.box_neighbour_possibilities = []
@@ -54,6 +55,7 @@ class SDKCell:
         self.row_neighbour_possibilities = []
         self.column_neighbour_possibilities = []
         self.box_neighbour_possibilities = []
+        self.entryBox.config(fg="black", state="normal")
 
-    def get_cell_coords(self):
+    def display_coords_as_string(self):
         return f'({self.coords[0]},{self.coords[1]})'

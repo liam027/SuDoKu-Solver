@@ -18,7 +18,8 @@ class SDKGrid:
     def assign_cell_coords(self):
         for x in range(9):
             for y in range(9):
-                self.grid[x][y].coords = [x,y]
+                self.grid[x][y].x = x
+                self.grid[x][y].y = y
 
     def get_cell_at_coords(self, x, y):
         return self.grid[x][y]
