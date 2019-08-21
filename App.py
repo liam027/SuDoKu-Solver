@@ -3,12 +3,19 @@ from tkinter import *
 from SDKGrid import *
 from SDKCell import *
 
+class UICell(Entry):
+    def __init__(self, *args, **kwargs):
+        Entry.__init__(self,*args, **kwargs)
+        self.cell = None
+
 class App:
     def __init__(self, master, **kwargs):
         #generate new SDKgrid for future input value storage
         self.puzzleGrid = SDKGrid("")
         self.targetCell = None
         self.foundStep = False
+        self.message = StringVar()
+        self.message.set("LOAD or manually input a puzzle!")
         #window size, spacer and container for entry elements
         self.master=master
         master.geometry('550x600+0+0')
@@ -24,8 +31,10 @@ class App:
         #create input elements and assign to SDKgrid
         for x in range(9):
             for y in range(9):
-                input = Entry(top_frame, width = 2, font = ("Courier", 24), justify="center")
+                input = UICell(top_frame, width = 2, font = ("Courier", 24), justify="center")
+                input.cell = self.puzzleGrid.get_cell_at_coords(x,y)
                 self.puzzleGrid.get_cell_at_coords(x,y).entryBox = input
+                input.bind("<Enter>", self.display_possibilitites())
                 input.grid(row=x,column=y)
 
         #separate grid and buttons
@@ -33,8 +42,6 @@ class App:
         grid_to_label_spacer.pack()
 
         #label for messages
-        self.message = StringVar()
-        self.message.set("LOAD or manually input a puzzle!")
         self.label_for_messages = Label(self.master, textvariable = self.message)
         self.label_for_messages.pack()
 
@@ -50,6 +57,7 @@ class App:
         solve_button.pack(side=LEFT)
 
         step_button = Button(bottom_frame, text = "STEP", fg = "black", command=lambda : self.step_button())
+        step_button.bind("<Enter>", self.display_possibilitites())
         step_button.pack(side=LEFT)
 
         populate_button = Button(bottom_frame, text = "LOAD", fg = "black", command=lambda : self.load())
@@ -60,6 +68,9 @@ class App:
 
         quit_button = Button(bottom_frame, text = "QUIT", fg = "red", command=bottom_frame.quit)
         quit_button.pack(side=LEFT)
+
+    def display_possibilitites(self):
+        self.message.set("boop!")
 
     def step_button(self):
         self.foundStep = False
@@ -273,7 +284,7 @@ class App:
         if i in targetCell.possibilities:
             targetCell.possibilities.remove(i)
 
-    def flatten_list(self, list_of_lists): #flattens a list of lists into single array
+    def flatten_list(self, list_of_lists):  #flattens a list of lists into single array
         flat_list = []
         for sublist in list_of_lists:
             if type(sublist) is list: #make sure the item in list_of_lists is a list (iterable)
@@ -284,7 +295,7 @@ class App:
 
 
 root = Tk()
-root.title("SuDuKo Solver")
+root.title("SuDoKu Solver")
 
 app = App(root)
 cell = app.puzzleGrid.grid[4][4]
