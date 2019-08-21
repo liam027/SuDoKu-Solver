@@ -21,9 +21,9 @@ class SDKCell:
     def assign_value_from_input_box(self):
         #if input provided, ensure 0-9
         input = self.entryBox.get()
-        matchObj = re.match(r'[0123456789]',str(input))
+        matchObj = re.match(r'\A[0123456789]',str(input))
         if input != "":
-            if matchObj:
+            if matchObj and len(input) == 1:
                 self.solve(input)
                 return True
             else:

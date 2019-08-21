@@ -76,11 +76,10 @@ class App:
     def load(self,file = ""):
         self.puzzleGrid.clear()
         if file == "":
-            fin = filedialog.askopenfilename(initialdir="puzzles/",title="Select file", filetypes =(("JSON files","*.json"),("All file types","*.*")))
-        else:
-            fin = file
-        self.puzzleGrid.load(fin)
-        self.message.set("SOLVE the puzzle or STEP through the solution!")
+            file = filedialog.askopenfilename(initialdir="puzzles/",title="Select file", filetypes =(("JSON files","*.json"),("All file types","*.*")))
+        if file != "": #check again incase dialog is cancelled
+            self.puzzleGrid.load(file)
+            self.message.set("SOLVE the puzzle or STEP through the solution!")
 
     """def solve_button(self):
         if self.puzzleGrid.assign_input_values():
@@ -98,7 +97,9 @@ class App:
     def save(self):
         if self.puzzleGrid.assign_input_values():
             fout = filedialog.asksaveasfilename(initialdir="puzzles/",title="Select save location", filetypes =(("JSON files","*.json"),("All file types","*.*")))
-            self.puzzleGrid.save(fout)
+            pdb.set_trace()
+            if isinstance(fout, str):
+                self.puzzleGrid.save(fout)
         else:
             self.message.set("Bad Input! Make sure you've entered only single digits!")
 
