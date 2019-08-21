@@ -97,7 +97,6 @@ class App:
     def save(self):
         if self.puzzleGrid.assign_input_values():
             fout = filedialog.asksaveasfilename(initialdir="puzzles/",title="Select save location", filetypes =(("JSON files","*.json"),("All file types","*.*")))
-            pdb.set_trace()
             if isinstance(fout, str):
                 self.puzzleGrid.save(fout)
         else:
