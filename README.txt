@@ -3,7 +3,7 @@
 A small app that solves SuDoKu puzzles using a logical approach, as a person would (does NOT use brute force or iterative guessing).
 
 Features:
-  - Provides UI for user input of a puzzle
+  - Provides UI for user input of a puzzle (tkinter)
   - Save or load a puzzle to/from a .json file
   - Solve a puzzle in full or one cell at a time (step-wise)
 
