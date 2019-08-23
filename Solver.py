@@ -8,26 +8,28 @@ class Solver:
         self.foundStep = False
 
     def solve_step(self,puzzle_grid,x,y):
+        """solve one cell of the puzzle"""
         self.puzzleGrid  = puzzle_grid
         if(self.foundStep == False):
             self.targetCell = self.puzzleGrid.grid[x][y]
             if(self.targetCell.isSolved == False):
                 self.calculate_possibilities()
-                if len(self.targetCell.possibilities) == 1:
+                if len(self.targetCell.possibilities) == 1: #README method 1
                     self.targetCell.solve()
                     return True
                 else:
-                    return self.check_neighbours()
+                    return self.check_neighbours() #README method 2
 
     def solve_full(self,puzzle_grid,x,y):
+        """solve entire puzzle"""
         self.puzzleGrid = puzzle_grid
         self.targetCell = self.puzzleGrid.grid[x][y]
         if(self.targetCell.isSolved == False):
             self.calculate_possibilities()
             if len(self.targetCell.possibilities) == 1:
-                self.targetCell.solve()
+                self.targetCell.solve() #README method 1
             else:
-                self.check_neighbours()
+                self.check_neighbours() #README method 2
 
     def calculate_possibilities(self):
         self.reduce_possibilities_by_row()
@@ -50,7 +52,7 @@ class Solver:
         return False
 
     def reduce_possibilities_by_row(self):
-        #check for numbers in horizontal adjacent cells and remove those from target's possibilities
+        """check for numbers in horizontal adjacent cells and remove those from target's possibilities"""
         x = self.targetCell.x
         for i in range(1,10): #content
             for n in range(9): #y-coord adjacent cells
@@ -62,7 +64,7 @@ class Solver:
         self.targetCell.row_neighbour_possibilities = flatten_list(self.targetCell.row_neighbour_possibilities)
 
     def reduce_possibilities_by_column(self):
-        #check for numbers in vertical adjacent cells and remove those from target's possibilities
+        """check for numbers in vertical adjacent cells and remove those from target's possibilities"""
         y = self.targetCell.y
         for i in range(1,10): #content
             for n in range(9): #x-coord adjacent cells
@@ -74,7 +76,7 @@ class Solver:
         self.targetCell.column_neighbour_possibilities = flatten_list(self.targetCell.column_neighbour_possibilities)
 
     def reduce_possibilities_by_box(self):
-        #check 3x3 box that contains self.targetCell for numbers and remove them from target possibilities
+        """check 3x3 box that contains self.targetCell for numbers and remove them from target possibilities"""
         x = self.targetCell.x
         y = self.targetCell.y
         if x < 3 and y < 3: #top left
@@ -98,7 +100,7 @@ class Solver:
         self.targetCell.box_neighbour_possibilities = flatten_list(self.targetCell.box_neighbour_possibilities)
 
     def check_box1(self):  #top left
-        for i in range(1,10): #[BUG] could move this below to save time?
+        for i in range(1,10):
             for r in range(0,3):
                 for c in range(0,3):
                     neighbour_cell = self.puzzleGrid.grid[r][c]
@@ -179,6 +181,6 @@ class Solver:
                     if str(i) == neighbour_cell.finalNumber:
                         self.RemovePossiblityFromTargetCell(i)
 
-    def RemovePossiblityFromTargetCell(self,i):
-        if i in self.targetCell.possibilities:
-            self.targetCell.possibilities.remove(i)
+    def RemovePossiblityFromTargetCell(self,number):
+        if number in self.targetCell.possibilities:
+            self.targetCell.possibilities.remove(number)

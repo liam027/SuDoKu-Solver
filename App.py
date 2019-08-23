@@ -37,7 +37,7 @@ class App:
         bottom_frame = Frame( width = 600, height = 50)
         bottom_frame.pack()
 
-    """Button Widgets"""
+        """Button Widgets"""
         solve_button = Button(bottom_frame, text = "SOLVE", fg = "blue", command=lambda : self.solve_button())
         solve_button.pack(side=LEFT)
 
@@ -84,17 +84,17 @@ class App:
         """saves the current input as a .json puzzle"""
         if self.puzzleGrid.assign_input_values():
             fout = filedialog.asksaveasfilename(initialdir="puzzles/",title="Select save location", filetypes =(("JSON files","*.json"),("All file types","*.*")))
-            if isinstance(fout, str):
+            if fout != "" and isinstance(fout, str):
                 self.puzzleGrid.save(fout)
         else:
             self.message.set("Bad Input! Make sure you've entered only single digits!")
 
     def load(self,file = ""):
         """load a .json puzzle"""
-        self.puzzleGrid.clear()
         if file == "":
             file = filedialog.askopenfilename(initialdir="puzzles/",title="Select file", filetypes =(("JSON files","*.json"),("All file types","*.*")))
-        if isinstance(file, str): #check again incase dialog is cancelled
+        if file != "" and isinstance(file, str): #check again incase dialog is cancelled
+            self.puzzleGrid.clear_grid()
             self.puzzleGrid.load(file)
             self.message.set("SOLVE the puzzle or STEP through the solution!")
 
@@ -117,9 +117,6 @@ class App:
 
 root = Tk()
 root.title("SuDoKu Solver")
-
 app = App(root)
-cell = app.puzzleGrid.grid[4][4]
-
 root.mainloop()
 #root.destroy()

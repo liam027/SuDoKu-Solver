@@ -1,12 +1,12 @@
 import App
-import Solver
 from tkinter import *
 import unittest
 
 class SolverTests(unittest.TestCase):
-    print("Tests initiated!")
-
+    """A few (non-exhaustive) test cases for a hypothetical test puzzle to ensure solving methodology is behaving as expected"""
+    print("SolverTests initiated!")
     def test_load(self):
+        """Load test file and check if values are assigned correctly to SDKGrid"""
         root = Tk()
         app = App.App(root)
         app.load("puzzles/test.json")
@@ -17,6 +17,7 @@ class SolverTests(unittest.TestCase):
 
 
     def test_reduce_possiblities(self):
+        """For 3 cases (row, column, box), assert that a cell will solve when it's possibilities are reduced to zero"""
         root = Tk()
         app = App.App(root)
         app.load("puzzles/test.json")
@@ -32,6 +33,7 @@ class SolverTests(unittest.TestCase):
         self.assertEqual(app.puzzleGrid.grid[2][2].finalNumber, "1")
 
     def test_check_neighbours_by_row(self):
+        """Assert that a cell will solve when it is the only cell in a row that can contain that number"""
         root = Tk()
         app = App.App(root)
         app.load("puzzles/test.json")
@@ -45,6 +47,7 @@ class SolverTests(unittest.TestCase):
         self.assertEqual(app.puzzleGrid.grid[7][6].finalNumber, "5")
 
     def test_check_neighbours_by_column(self):
+        """Assert that a cell will solve when it is the only cell in a column that can contain that number"""
         root = Tk()
         app = App.App(root)
         app.load("puzzles/test.json")
@@ -60,6 +63,7 @@ class SolverTests(unittest.TestCase):
         self.assertEqual(app.puzzleGrid.grid[8][4].finalNumber, "4")
 
     def test_check_neighbours_by_box(self):
+        """Assert that a cell will solve when it is the only cell in a box that can contain that number"""
         root = Tk()
         app = App.App(root)
         app.load("puzzles/test.json")

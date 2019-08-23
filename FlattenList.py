@@ -1,4 +1,5 @@
-def flatten_list(list_of_lists):  #flattens a list of lists into single array
+def flatten_list(list_of_lists):
+    """flattens a list of lists into a flat array"""
     flat_list = []
     for sublist in list_of_lists:
         if type(sublist) is list: #make sure the item in list_of_lists is a list (iterable)
