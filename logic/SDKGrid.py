@@ -1,5 +1,5 @@
 import json
-from SDKCell import *
+from logic.SDKCell import *
 
 class SDKGrid:
     """This object represents the entire SuDoKu puzzle grid and is comprised of SDKCells"""
@@ -9,7 +9,7 @@ class SDKGrid:
         self.grid = []
         for x in range(9):
             self.grid.append(self.make_row(x, cellContent))
-        
+
     def make_row(self, rowIndex, cellContent):
         """create a row of cells containing cellContent"""
         row = []

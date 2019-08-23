@@ -1,4 +1,4 @@
-from FlattenList import *
+from logic.FlattenList import *
 
 class Solver:
     puzzleGrid = None

@@ -1,6 +1,6 @@
-from SDKCell import *
-from SDKGrid import *
-import Solver
+from logic.SDKCell import *
+from logic.SDKGrid import *
+import logic.Solver as Solver
 from tkinter import filedialog
 from tkinter import *
 
