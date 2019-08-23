@@ -67,7 +67,7 @@ class App:
         """Button methods"""
     def solve_button(self):
         if self.puzzleGrid.assign_input_values():
-            for i in range(30): #[BUG] iteration based?
+            for i in range(30):
                 for x in range(9):
                     for y in range(9):
                         self.solver.solve_full(self.puzzleGrid,x,y)
@@ -81,12 +81,11 @@ class App:
     def step_button(self):
         self.foundStep = False
         if self.puzzleGrid.assign_input_values():
-            for i in range(30): #[BUG]  iteration based?
-                for x in range(9):
-                    for y in range(9):
-                        if self.foundStep == False:
-                            if(self.solver.solve_step(self.puzzleGrid,x,y)):
-                                self.foundStep = True
+            for x in range(9):
+                for y in range(9):
+                    if self.foundStep == False:
+                        if(self.solver.solve_step(self.puzzleGrid,x,y)):
+                            self.foundStep = True
 
         if self.isComplete() == True:
             self.message.set("Puzzle completed!")

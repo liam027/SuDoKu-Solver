@@ -47,8 +47,7 @@ class Solver:
                 elif p not in self.targetCell.box_neighbour_possibilities:
                     self.targetCell.solve(p)
                     return True
-                else:
-                    return False
+        return False
 
     def reduce_possibilities_by_row(self):
         #check for numbers in horizontal adjacent cells and remove those from target's possibilities
