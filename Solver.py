@@ -19,15 +19,15 @@ class Solver:
                 else:
                     return self.check_neighbours()
 
-
-    """def solve_full(self,x,y):
-                targetCell = self.puzzleGrid.grid[x][y]
-                if(targetCell.isSolved == False):
-                    self.calculate_possibilities()
-                    if len(targetCell.possibilities) == 1:
-                        targetCell.solve()
-                    else:
-                        self.check_neighbours()"""
+    def solve_full(self,puzzle_grid,x,y):
+        self.puzzleGrid = puzzle_grid
+        self.targetCell = self.puzzleGrid.grid[x][y]
+        if(self.targetCell.isSolved == False):
+            self.calculate_possibilities()
+            if len(self.targetCell.possibilities) == 1:
+                self.targetCell.solve()
+            else:
+                self.check_neighbours()
 
     def calculate_possibilities(self):
         self.reduce_possibilities_by_row()

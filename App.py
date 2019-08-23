@@ -64,6 +64,20 @@ class App:
         quit_button = Button(bottom_frame, text = "QUIT", fg = "red", command=bottom_frame.quit)
         quit_button.pack(side=LEFT)
 
+        """Button methods"""
+    def solve_button(self):
+        if self.puzzleGrid.assign_input_values():
+            for i in range(30): #[BUG] iteration based?
+                for x in range(9):
+                    for y in range(9):
+                        self.solver.solve_full(self.puzzleGrid,x,y)
+        else:
+            print("Inputs not valid!")
+        if self.isComplete() == True:
+            print("Puzzle Completed!")
+        else:
+            print("Puzzle NOT Complete!")
+
     def step_button(self):
         self.foundStep = False
         if self.puzzleGrid.assign_input_values():
@@ -77,27 +91,6 @@ class App:
         if self.isComplete() == True:
             self.message.set("Puzzle completed!")
 
-    def load(self,file = ""):
-        self.puzzleGrid.clear()
-        if file == "":
-            file = filedialog.askopenfilename(initialdir="puzzles/",title="Select file", filetypes =(("JSON files","*.json"),("All file types","*.*")))
-        if isinstance(file, str): #check again incase dialog is cancelled
-            self.puzzleGrid.load(file)
-            self.message.set("SOLVE the puzzle or STEP through the solution!")
-
-    """def solve_button(self):
-        if self.puzzleGrid.assign_input_values():
-            for i in range(30): #[BUG] iteration based?
-                for x in range(9):
-                    for y in range(9):
-                        self.solve_full(x,y)
-        else:
-            print("Inputs not valid!")
-        if self.isComplete() == True:
-            print("Puzzle Completed!")
-        else:
-            print("Puzzle NOT Complete!")"""
-
     def save(self):
         if self.puzzleGrid.assign_input_values():
             fout = filedialog.asksaveasfilename(initialdir="puzzles/",title="Select save location", filetypes =(("JSON files","*.json"),("All file types","*.*")))
@@ -105,6 +98,14 @@ class App:
                 self.puzzleGrid.save(fout)
         else:
             self.message.set("Bad Input! Make sure you've entered only single digits!")
+
+    def load(self,file = ""):
+        self.puzzleGrid.clear()
+        if file == "":
+            file = filedialog.askopenfilename(initialdir="puzzles/",title="Select file", filetypes =(("JSON files","*.json"),("All file types","*.*")))
+        if isinstance(file, str): #check again incase dialog is cancelled
+            self.puzzleGrid.load(file)
+            self.message.set("SOLVE the puzzle or STEP through the solution!")
 
     def show_remaining_cells_possibilities(self):
         for x in range(9):
