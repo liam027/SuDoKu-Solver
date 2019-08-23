@@ -81,7 +81,7 @@ class App:
         self.puzzleGrid.clear()
         if file == "":
             file = filedialog.askopenfilename(initialdir="puzzles/",title="Select file", filetypes =(("JSON files","*.json"),("All file types","*.*")))
-        if file != "": #check again incase dialog is cancelled
+        if isinstance(file, str): #check again incase dialog is cancelled
             self.puzzleGrid.load(file)
             self.message.set("SOLVE the puzzle or STEP through the solution!")
 
