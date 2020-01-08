@@ -1,6 +1,6 @@
 #ignore virtual env. folder
-./SDKSenv/
+SDKSenv/
 
 #ignore python caching files
-./logic/
-./__pycache__/
+logic/
+logic/__pycache__/
