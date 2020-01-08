@@ -20,7 +20,3 @@ Ie. in row if only one cell has the possibility to be a 1, it can be solved.
 
 Method #3: Reduce possiblities by neighbouring possibility pairs (Y-wing method)
 TO BE IMPLEMENTED
-
-TO-DO
-- Currently solves easy, medium and some hard puzzles. Does not solve "evil" or "diabolical" puzzles. Need to implement advanced solving logic.
-- Create a more exhaustive list of test cases
