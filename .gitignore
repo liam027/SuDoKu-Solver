@@ -2,5 +2,5 @@
 SDKSenv/
 
 #ignore python caching files
-logic/
-logic/__pycache__/
+*.pyc
+
