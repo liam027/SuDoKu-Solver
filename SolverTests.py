@@ -3,7 +3,10 @@ from tkinter import *
 import unittest
 
 class SolverTests(unittest.TestCase):
-    """A few (non-exhaustive) test cases for a hypothetical test puzzle to ensure solving methodology is behaving as expected"""
+    """A few (not-exhaustive) test cases to ensure solving methodology is behaving as expected.
+    The test puzzle is not a real puzzle and will not actually solve in full.It only provides certain 
+    situations to check the solver functions correctly."""
+    
     print("SolverTests initiated!")
     def test_load(self):
         """Load test file and check if values are assigned correctly to SDKGrid"""
