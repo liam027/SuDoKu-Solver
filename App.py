@@ -10,11 +10,11 @@ class App:
         self.solver = Solver.Solver()
 
         self.master=master
-        master.geometry('550x600+0+0')
+        master.geometry('450x500+0+0')
 
-        top_title_header = Frame(self.master,width = 600, height = 50)
+        top_title_header = Frame(self.master,width = 450, height = 25)
         top_title_header.pack()
-        top_frame = Frame(self.master,width = 600, height = 600)
+        top_frame = Frame(self.master,width = 450, height = 500)
         top_frame.pack()
         #create input (entry) widgets and assign to SDKgrid
         for x in range(9):
@@ -23,7 +23,7 @@ class App:
                 self.puzzleGrid.get_cell_at_coords(x,y).entryBox = input
                 input.grid(row=x,column=y)
 
-        grid_to_label_spacer = Frame(width = 600, height = 10)
+        grid_to_label_spacer = Frame(width = 450, height = 10)
         grid_to_label_spacer.pack()
         #label for messages
         self.message = StringVar()
@@ -64,9 +64,9 @@ class App:
         else:
             print("Bad Input! Make sure you've entered only single digits!")
         if self.isComplete() == True:
-            print("Puzzle Completed!")
+            self.message.set("Puzzle completed!")
         else:
-            print("Puzzle solving FAILED!")
+            self.message.set("Puzzle completed!")
 
     def step_button(self):
         """solves one cell of the the puzzle"""
